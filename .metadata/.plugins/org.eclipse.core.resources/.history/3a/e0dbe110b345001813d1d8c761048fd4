@@ -1,0 +1,20 @@
+
+public class TOF_starter {
+	public static void moves(int n,boolean left) {
+		if(n==1) {
+			if(left) {
+				System.out.println("Move" + n + "discs to the left");
+			}else {
+				System.out.println("Move" + n + "discs to the right");
+			}
+		}else {
+			moves(n-1,!left);
+			moves(1,left);
+			moves(n-1,!left);
+		}
+	}
+	public static void main(String[] args) {
+		int N = 2;
+		moves(2,true);
+	}
+}

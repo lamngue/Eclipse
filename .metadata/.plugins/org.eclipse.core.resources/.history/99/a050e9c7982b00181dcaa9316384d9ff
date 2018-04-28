@@ -1,0 +1,16 @@
+public class Checkerboard {
+    public static void main(String[] args) {
+        int asterisks = Integer.parseInt(args[0]);
+        for (int i = 0; i < asterisks; i++) {
+            for(int j = 0;j< asterisks;j++){
+                if (i% 2 == 0){
+                    System.out.print("*" + " ");
+                }
+                else if (i %2 != 0){
+                    System.out.print(" "+ "*");
+                }
+            }
+            System.out.println("");
+        }
+    }
+}

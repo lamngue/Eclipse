@@ -1,0 +1,28 @@
+import java.util.Arrays;
+public class matrix {
+	public static void main(String[] args) {
+		int time = Integer.parseInt(args[0]);
+		int users = Integer.parseInt(args[1]);
+		int flip = 0;
+		double worstRatio = 1;
+		int worsePerson = 1;
+		for (int i = 1;i<=users;i++) {
+			int head = 0;
+			for(int j = 0;j<time;j++) {
+				double value = Math.random();
+				if (value <= 0.5) {
+					head += 1;
+					flip++;
+				}
+			}
+			System.out.println("Person " + i + " " + (double)(head)/time);
+			if ((double)(head)/time < worstRatio) {
+				worstRatio = (double)(head)/time;
+				worsePerson = i; 
+			}
+			
+		}
+		System.out.println("Congratulations, person " + worsePerson + "You have the worst ratio today");
+		
+	}
+}

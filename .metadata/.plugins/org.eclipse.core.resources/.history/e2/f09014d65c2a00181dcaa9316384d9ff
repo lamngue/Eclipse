@@ -1,0 +1,22 @@
+import java.util.Arrays;
+public class matrix {
+	public static void main(String[] args) {
+		double time = Integer.parseInt(args[0]);
+		int users = Integer.parseInt(args[1]);
+		int flip = 0;
+		double frac = 1;
+		for (int i = 1;i<=users;i++) {
+			int head = 0;
+			while(flip<time) {
+				double value = Math.random();
+				if (value <= 0.5) {
+					head += 1;
+					flip++;
+				}
+			}
+			frac = (double)(head/time);
+			System.out.println("Person " + i + " " + frac);
+		}
+		
+	}
+}

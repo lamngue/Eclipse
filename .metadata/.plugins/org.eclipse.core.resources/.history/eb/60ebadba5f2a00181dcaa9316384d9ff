@@ -1,0 +1,38 @@
+import java.util.Arrays;
+public class bubblesort {
+	public static void main(String[] args) {
+		int m = Integer.parseInt(args[0]);
+		int n = Integer.parseInt(args[1]);
+		double[][] a = new double[m][n];
+		double[][] b = new double[m][n];
+		for (int i = 0;i<m;i++) {
+			for (int j = 0;j<n;j++) {
+				a[i][j] = Math.random();
+				b[i][j] = Math.random();
+			}
+		}
+		double[] rowAverages = new double[a.length];
+		double[] colAverages = new double[m];
+		double sum=0;
+		for (int i = 0; i< m;i++) {
+			for (int j = 0;j<n;j++) {
+				sum += a[i][j];
+				double avg = sum/n;
+				rowAverages[i] = avg;
+			}
+		}
+		System.out.println(Arrays.toString(rowAverages));
+		for (int i = 0;i<a.length;i++) {
+			System.out.print(Arrays.toString(a[i]));
+		}
+		double sumCol = 0;
+		for (int i = 0;i<n;i++) {
+			for(int j = 0;j<i;j++) {
+				sumCol += a[i][j];
+				double avgCol = sumCol/m;
+				colAverages[i] = avgCol;
+			}
+		}
+		System.out.println(Arrays.toString(colAverages));
+	}
+}

@@ -1,0 +1,87 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+
+
+public class NBody {
+
+	/**
+	 * @param args
+	 * @throws FileNotFoundException 
+	 */
+	public static void main(String[] args) throws FileNotFoundException {
+		double distance,xDistance,yDistance,force,forceX,forceY;
+		double big_t = Double.parseDouble(args[0]);
+		double delta_t = Double.parseDouble(args[1]);
+		double gravitation = 6.67e-11;
+		String resourceFolder = "resources/";
+		String fileName = resourceFolder + args[2];
+		FileInputStream fileInputStream = new FileInputStream(fileName);
+		System.setIn(fileInputStream);
+
+		// Use StdIn to read from the file.
+		int numBodies = StdIn.readInt();
+		double universeRadius = StdIn.readDouble();
+		
+		// Set the scale for the universe and play the music
+		StdDraw.setXscale(-universeRadius,universeRadius);
+		StdDraw.setYscale(-universeRadius,universeRadius);
+		StdAudio.play("2001.mid");
+		
+		// Initialize six parallel arrays for planets.txt
+		double[] rx = new double[numBodies];
+		double[] ry = new double[numBodies];
+		double[] vx = new double[numBodies];
+		double[] vy = new double[numBodies];
+		double[] mass = new double[numBodies];
+		String[] image = new String[numBodies];
+		StdOut.println(numBodies);
+		StdOut.println(universeRadius);
+		
+		// read in the data for 6 arrays
+		for (int i = 0; i < numBodies; i++) {
+		    rx[i] = StdIn.readDouble();
+		    ry[i] = StdIn.readDouble();
+		    vx[i] = StdIn.readDouble();
+		    vy[i] = StdIn.readDouble();
+		    mass[i] = StdIn.readDouble();
+		    image[i] = StdIn.readString();
+		    StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
+		    		rx[i], ry[i], vx[i], vy[i], mass[i], image[i]);
+		}	
+		double[] fx = new double[numBodies];
+		double[] fy = new double[numBodies];
+		
+		for (double k = 0;k<big_t;k++) {
+			// initialize all values to zero
+			for (int x = 0;x < numBodies; x++) {
+				fx[x] = 0.0;
+				fy[x] = 0.0;
+			}
+			// two nested for loops to calculate net forces
+			for (int y = 0; y < numBodies; y++) {
+				for (int z = 0; z < numBodies; z++) {
+					if (y !=z) {
+					xDistance = rx[z] - rx[y];
+					yDistance = ry[z] - ry[y];
+					distance = Math.pow(xDistance, 2) + Math.pow(yDistance, 2);
+					force = gravitation * mass[z] * mass[y]/distance;				
+					forceX = (force * xDistance) / Math.sqrt(distance);
+					forceY = (force * yDistance)/Math.sqrt(distance);
+					fx[y] += forceX;
+					fy[y] += forceY;
+					}
+				}
+			}
+				StdDraw.picture(0, 0, "resources/nbody/starfield.jpg");
+				for (int j = 0; j < numBodies;j++) {
+					vx[j] = vx[j] + delta_t * (fx[j]/mass[j]);
+					vy[j] = vy[j] + delta_t * (fy[j]/mass[j]);
+					rx[j] = rx[j] + delta_t * vx[j];
+					ry[j] = ry[j] + delta_t * vy[j];
+					StdDraw.picture(rx[j],ry[j] , "resources/nbody/" + image[j]);
+				}
+				StdDraw.show(20);
+	}
+	}
+}

@@ -1,0 +1,90 @@
+/**********************************************************************
+ *  readme template
+ *  Global Sequence Alignment
+ **********************************************************************/
+
+Name: Lam Nguyen
+
+Hours to complete assignment (optional):
+
+/**********************************************************************
+ *  Describe any serious problems you encountered.                    
+ **********************************************************************/
+
+
+/**********************************************************************
+ *  Make a table of values showing running times for the method
+ *  recursiveEditDistance when given two random DNA strings of length
+ *  N, where N from 1 to about 10 or 12.  To do this properly, it would
+ *  be best to repeat the test several times for each value of N, and
+ *  average the times.
+ *
+ *  What can you say about the growth of this time as a function of N?
+ *  
+ **********************************************************************/
+		String1Length          String2Length         Time
+			  7                      7				Around 0.00s
+			  8                      8				Around 0.02s
+			  9                      9				Around 0.032s
+		      10                     10				Around 0.08s
+		      11                     11				Around 0.31s
+		      12				     12				Around 2s
+	The growth of time shows that if N increases by 1, the method have to run 
+	through 3 deeper recursive calls. So the total steps that method has to go
+	through is 3^N (N is string length), so the time it takes 
+/**********************************************************************
+ *  For each data file, fill in the edit distance computed by your
+ *  program and the amount of time it takes to compute it.
+ **********************************************************************/
+
+data file           distance       time (seconds)
+-------------------------------------------------
+ecoli3000.txt		   125			0.195
+ecoli5000.txt          160			0.494
+ecoli7000.txt		   194			0.977
+ecoli10000.txt		   223			2.073
+
+
+
+/**********************************************************************
+ *  Because the dynamic programming version does a fixed amount of
+ *  computation for each element in the two-dimensional table,
+ *  we expect that the time complexity should be quadratic.  Does the
+ *  data above seem to support this hypothesis?   Use the doubling
+ *  hypothesis to explain how you arrived at your answer.
+ **********************************************************************/
+	Yes. Comparing two file ecoli 5000 and 10000. In reality, I see that the time 
+	ratio is 0.494/1.93 = 0.255. Theoretically, If we run ecoli 5000 file, 
+	the program would go to a double for loops of 5001 * 5001 times. Similarly, 
+	the program would go 10001*10001 times if we run ecoli 10000 file. The ratio 
+	is 5001^2/10001^2 = 0.25, which is close to 0.255. 
+
+/**********************************************************************
+ *  As a function of the string length N (assume M = N), estimate the
+ *  running time of your program (and the sample) in seconds. Your answer
+ *  should have the form a * N^2 for some constant a.
+ *
+ *  What is the largest N your program can handle if it is limited to 1
+ *  day of computation? Assume you have as much main memory as you need.
+ **********************************************************************/
+// 
+	Based on the table in question 2 where two strings are the same length, 
+	I conclude that the function that generalizes the time it takes to run 
+	EditDistance is: 
+	t = (2*10^-8) * N^2 (seconds)
+	t = 1 day = 86400 seconds 
+	=> largest N = Math.sqrt(t/a) = 2078461 
+
+
+
+/**********************************************************************
+ *  List whatever help (if any) that you received. You don't need to
+ *  include the course materials or lectures, but do include any
+ *  additional help your received from people other than course staff,
+ *  and include their names.
+ **********************************************************************/
+
+
+/**********************************************************************
+ *  List any other comments here.                                     
+ **********************************************************************/

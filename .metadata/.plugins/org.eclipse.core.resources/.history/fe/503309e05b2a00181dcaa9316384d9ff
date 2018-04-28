@@ -1,0 +1,25 @@
+import java.util.Arrays;
+public class matrix {
+	public static void main(String[] args) {
+		double time = Integer.parseInt(args[0]);
+		int users = Integer.parseInt(args[1]);
+		int head = 0;
+		int tail = 0;
+		int flip = 0;
+		double frac = 0;
+		while(flip<time) {
+			double value = Math.random();
+			if (value <= 0.5) {
+				head += 1;
+				System.out.println("head count " + head);
+				flip++;
+			}else {
+				tail += 1;
+				System.out.println("Tail count " + tail);
+				flip++;
+			}
+			frac = (double)(head/time);
+		}
+		System.out.println("The fraction of heads in " + time + " coins flip is " + frac);
+	}
+}

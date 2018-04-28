@@ -1,0 +1,27 @@
+
+public class TOF_starter {
+	public static void moves(int n,boolean left) {
+		//base case
+		if(n==1) {
+			if(left) {
+				System.out.println("Move " + n + "  to the left");
+			}else {
+				System.out.println("Move " + n + " discs to the right");
+			}
+		}
+		//recursive caseS
+		else {
+			moves(n-1,!left);
+			if (left) {
+				System.out.println("Move the " + n +" disc to the left");
+			}else {
+				System.out.println("Move the " + n +" disc to the right");
+			}
+			moves(n-1,!left);
+		}
+	}
+	public static void main(String[] args) {
+		int N = 4;
+		moves(N,true);
+	}
+}

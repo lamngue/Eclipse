@@ -1,0 +1,271 @@
+import java.io.FileInputStream; // put this at the top of your source code outside the class definition
+import java.util.Random;
+
+public class EditDistance {
+
+public static void main(String[] args) {
+
+    try {
+
+        System.setIn(new FileInputStream("resources/" + args[0]));
+
+    } catch (Exception e) {
+
+        System.err.printf("Exception caught: %s\n", e.toString());
+
+        System.exit(0);
+
+    }
+
+  
+    String x = StdIn.readLine();
+
+    String y = StdIn.readLine();
+    
+    timeEditDistance(x,y);
+
+	} // end of main method
+	
+/**
+
+ * @param x a non-null String
+
+ * @param y a non-null String
+
+ * @return the the edit distance between x and y
+
+ * 
+
+ * This procedure should use a recursive, not dynamic programming, approach
+
+ * to compute the edit distance
+
+ */
+
+// recursive solution
+private static int recursiveEditDistance(String x, String y) {
+	return recursiveEditDistance(x,y,0,0);
+}
+
+
+
+private static int recursiveEditDistance(String x, String y, int i, int j) {
+	// TODO Auto-generated method stub
+	if (i == x.length()) {
+		return 2 * (y.length()-j); //penalty for all remaining characters
+	}
+	else if(j == y.length()) {
+		return 2 * (x.length()-i); //penalty for all remaining characters
+	}
+	else {
+		int case1 = recursiveEditDistance(x,y,i+1,j) +2;
+		int case2 = recursiveEditDistance(x,y,i,j+1) +2;
+		int case3 = recursiveEditDistance(x,y,i+1,j+1);
+		if (x.charAt(i) != y.charAt(j)) {
+			case3 ++;
+		}
+		return Math.min(case1, Math.min(case2, case3));
+	}
+}
+
+/**
+
+ * @param x a non-null String
+
+ * @param y a non-null String
+
+ * @return the the edit distance between x and y
+
+ * 
+
+ * This procedure should dynamic programming to compute the edit distance
+
+ */
+
+// bottom up programming 
+private static int editDistance(String x, String y) {
+	int[][] opt = optimizingTable(x,y);
+	return opt[0][0];
+}
+
+private static int[][] optimizingTable(String x, String y) {
+	int[][] opt = new int[x.length()+1][y.length()+1];
+	int gap = 2, mismatch = 1, match = 0;
+	for (int i = x.length(); i>= 0; i--) {
+		for (int j = y.length();j >= 0;j--) {
+			if (i == x.length()) {
+				opt[i][j] = 2 * (y.length()-j); //penalty for all remaining characters
+			}
+			else if(j == y.length()) {
+				opt[i][j] = 2 * (x.length()-i); //penalty for all remaining characters
+			}
+			else {
+				int case1 = opt[i+1][j] + gap;
+				int case2 = opt[i][j+1] + gap;
+				int case3 = opt[i+1][j+1] + match;
+				if(x.charAt(i) != y.charAt(j)) {
+					case3+= mismatch;
+				}
+				opt[i][j] = Math.min(case1, Math.min(case2, case3));
+			}
+		}
+	}
+	return opt;
+}
+
+
+/**
+
+ * @param x a non-null String
+
+ * @param y a non-null String
+
+ * 
+
+ * This procedure should use dynamic programming to compute the edit distance
+
+ * and print it and an optimal alignment in the vertical format shown in the
+
+ * project assignment.
+
+ * NOTE: There may be multiple optimal alignments.
+
+ *       This procedure needs to print one optimal alignment.
+
+ */
+
+private static void printEditDistance(String x, String y) {
+	int[][] opt = optimizingTable(x,y);
+	int i = 0; int j = 0;
+	String adnX = "";
+	String adnY = "";
+	while(true) {
+		if (i == x.length()) {
+			break; //no 
+		}
+		else if (j == y.length()) {
+			break;
+		}
+		else {
+			int case1 = opt[i+1][j] +2;
+			int case2 = opt[i][j+1] +2;
+			int case3 = opt[i+1][j+1];
+			int case4 = opt[i+1][j+1] +1;
+			if(opt[i][j] == case1) {
+				adnX += x.charAt(i);
+				adnY += "-";
+				i++;
+			}
+			else if(opt[i][j] == case2) {
+				adnX += "-";
+				adnY += y.charAt(j);
+				j++;
+			}
+			else if(opt[i][j] == case3 || opt[i][j] == case4) {
+				adnX += x.charAt(i);
+				adnY += y.charAt(j);
+				i++;j++;
+			}
+			
+		}
+	}
+
+	System.out.println("Edit Distance = " + editDistance(x,y));
+	//make a number string correspond to the relationship between 2 dna strings
+	StringBuilder numbers = new StringBuilder();
+	for(int k = 0; k<adnX.length();k++) {
+		if (adnX.charAt(k) == adnY.charAt(k)) {
+			numbers.append(0);
+		}
+		else if(adnX.charAt(k) == '-' ||adnY.charAt(k) == '-') {
+			numbers.append(2);
+		}
+		else {
+			numbers.append(1);
+		}
+		StdOut.printf("%s %s %s\n", adnX.charAt(k),adnY.charAt(k),numbers.charAt(k));
+	}
+}
+
+  
+
+/**
+
+ * @param x a non-null String
+
+ * @param y a non-null String
+
+ * 
+
+ * Prints out the edit distance between x and y and the time taken to compute it
+
+ * using the recursive version recursiveEditDistance
+
+ */
+
+public static void timeRecursiveEditDistance(String x, String y) {
+	Stopwatch stopw = new Stopwatch();
+	int distance = recursiveEditDistance(x,y);
+	double time = stopw.elapsedTime();
+	StdOut.printf("Recursive Edit Distance length = %d; time = %.3f\n",
+			distance,time);
+}
+
+  
+
+/**
+
+ * @param x a non-null String
+
+ * @param y a non-null String
+
+ * 
+
+ * Prints out the edit distance between x and y and the time taken to compute it
+
+ * using the dynamic programming version editDistance
+
+ */
+
+public static void timeEditDistance(String x, String y) {
+	Stopwatch stopw = new Stopwatch();
+	int distance = editDistance(x,y);
+	double time = stopw.elapsedTime();
+	StdOut.printf("Edit Distance length = %d; time = %.3f\n",
+			distance,time);
+}
+
+  
+
+		  
+
+/**
+
+ * @param dnaLength a non-negative int
+
+ * @return a random String of length dnaLength comprised of the four chars A, T, G, and C
+
+ */
+
+public static String randomDNAString(int dnaLength) {
+	Random ran = new Random();
+	String dna = "";
+	for (int i = 0;i< dnaLength;i++) {
+		int num = ran.nextInt(4) + 1;
+		if(num ==1) {
+			dna += "A";
+		}
+		else if (num ==2) {
+			dna += "T";
+		}
+		else if (num == 3) {
+			dna += "G";
+		}
+		else {
+			dna += "C";
+		}
+	}
+	return dna;
+}
+
+}

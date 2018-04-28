@@ -1,0 +1,7 @@
+
+public class problem2 {
+	public static void main(String[] args) {
+		int end = Integer.parseInt(args[0]);
+		int div = Integer.parseInt(args[1]);
+	}
+}

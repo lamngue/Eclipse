@@ -1,0 +1,14 @@
+
+public class Recursive {
+	public static void printStars(int b,int n) {
+		for(int i = 0;i<b;i++) {
+			System.out.print("_");
+		}
+		for(int i = 0;i<n;i++) {
+			System.out.print("_*");
+		}
+		System.out.println();
+		printStars(0,3);
+	}
+	
+}

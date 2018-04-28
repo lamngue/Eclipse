@@ -1,0 +1,19 @@
+public class Checkerboard {
+    public static void main(String[] args) {
+    	int a = Integer.parseInt(args[0]);
+    	int b = Integer.parseInt(args[1]);
+    	int c = Integer.parseInt(args[2]);
+    	int smallerNumber = Math.min(a,Math.min(b, c));
+    	int finish = 0;
+    	while(true) {
+    		smallerNumber++;
+    		if(smallerNumber % a == 0 || smallerNumber %b==0) {
+    			System.out.print(smallerNumber);
+    			finish++;
+    		}
+    		if(finish == c) {
+    			break;
+    		}
+    	}
+    }
+}
